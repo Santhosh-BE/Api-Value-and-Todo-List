@@ -1,0 +1,18 @@
+.header {
+    display: flex;
+    padding: 15px;
+    margin: auto;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    justify-content: space-evenly;
+    background-color: rgb(231, 240, 231);
+    font-weight: bold;
+}
+
+.link {
+    text-decoration: none;
+    background: none;
+    border: none;
+
+}
