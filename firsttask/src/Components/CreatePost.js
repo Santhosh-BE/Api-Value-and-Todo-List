@@ -48,9 +48,9 @@ setPostValue([...postvalue,{name:name,title:title,content:content}])
                 return(
                     <tbody>
                         <tr>
-                            <td>{post.name}</td>
-                            <td>{post.title}</td>
-                            <td>{post.content}</td>
+                            <td className='bg-info'>{post.name}</td>
+                            <td className='bg-info'>{post.title}</td>
+                            <td className='bg-info'>{post.content}</td>
                         </tr>
                     </tbody>
                      
