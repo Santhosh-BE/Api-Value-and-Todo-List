@@ -4,11 +4,11 @@ import './Header.css'
 function Header() {
     return (
         <div className='header'>
-            <ul class="list-group list-group-horizontal">               
-                <li class="link list-group-item ">
+            <ul className="list-group list-group-horizontal">               
+                <li className="link list-group-item ">
                     <Link to="/" className='link'>Home Page</Link>
                 </li>
-                <li class="link list-group-item ">
+                <li className="link list-group-item ">
                     <Link to="Todo List" className='link'>Todo List</Link>
                 </li>
             </ul>

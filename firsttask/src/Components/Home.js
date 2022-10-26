@@ -19,20 +19,21 @@ function Home() {
     return (
         <>
             <button className='btn btn-success' onClick={Createpost}>Create Post</button>
-            <table className="table table-hover">
+            <table className="table table-hover table-borderless">
                 <thead>
                     <th>Author Name</th>
                 </thead>
-                {user.map(u => (
-                    <tbody>
+                <tbody>
+                    {user.map(u => (
 
-                        <td>
-                            <Link to='About' className='link'>{u.name}</Link>
-                        </td>
-
-                    </tbody>
-
-                ))}
+                        <tr>
+                            <td>
+                                <Link to={`/About/${u.id}`} className='link'>{u.name}</Link>
+                            </td>
+                        </tr>
+                    ))}
+                   
+                </tbody>
             </table>
         </>)
 }
