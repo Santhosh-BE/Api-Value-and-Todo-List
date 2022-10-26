@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Link, useNavigate } from "react-router-dom"
 
 
+
 function Home() {
     const [user, setUser] = useState([]);
     const navigate = useNavigate();
@@ -26,7 +27,7 @@ function Home() {
                     <tbody>
 
                         <td>
-                            <Link to='About'>{u.name}</Link>
+                            <Link to='About' className='link'>{u.name}</Link>
                         </td>
 
                     </tbody>
