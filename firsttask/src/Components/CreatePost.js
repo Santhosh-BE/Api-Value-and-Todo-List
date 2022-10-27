@@ -1,28 +1,46 @@
 import React from 'react'
 import { Row, Col, Container } from 'react-bootstrap'
 import { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function CreatePost() {
     const [id, setId] = useState("");
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
-    const [postvalue, setPostValue] = useState([]);
+    const [gender, setGender] = useState("");
+    const [status, setStatus] = useState("");
+    const [postvalue, setPostValue] = useState([{
+        id:id,
+        name:name,
+        email:email,
+        gender:gender,
+        status:status,
+    }]);
+
+    const navigate = useNavigate();
+    const api =`https://gorest.co.in/public/v2/users`
 
 
 
     const createpost = () => {
-        console.log(id, name, email);
-        if(id.trim().length !== 0 && name.trim().length !== 0 && email.trim().length !== 0){
-        setPostValue([...postvalue, { id: id, name: name, email: email }])
-        setId("");
-        setEmail("");
-        setName("");   
+        // console.log(id, name, email);
+        console.log(postvalue);
+        axios.post(api, { id, name, email,gender,status },{ headers: {"Authorization" : `Bearer ${'65a780d930e9d44a1d0607f12b2b90b368fcf094b9a8457ded8fbe1515d94cb8'}`} }).then(navigate("/"));
+        if (id.trim().length !== 0 && name.trim().length !== 0 && email.trim().length !== 0 && gender.trim().length !== 0 && status.trim().length !== 0) {
+            setPostValue([...postvalue, { id: id, name: name, email: email ,gender:gender,status:status}])
+            setId("");
+            setEmail("");
+            setName("");
+            setGender("");
+            setStatus("");
+        }
+        
+        else {
+            alert("Please Enter All Fields ")
+        }
     }
-    else{
-        alert("Please Enter All Fields ")
-    }
-}
-    const Deletepost=()=>{
+    const Deletepost = () => {
         setPostValue([]);
     }
     return (
@@ -45,6 +63,16 @@ function CreatePost() {
                         <input placeholder='Enter your Email' type='text' className='form-control' value={email} onChange={(e => setEmail(e.target.value))} ></input>
                     </Col>
                 </Row>
+                <Row className="justify-content-center mb-4">
+                    <Col md={4} className="text-center text-md-right">
+                        <input placeholder='Enter your Gender' type='text' className='form-control' value={gender} onChange={(e => setGender(e.target.value))} ></input>
+                    </Col>
+                </Row>
+                <Row className="justify-content-center mb-4">
+                    <Col md={4} className="text-center text-md-right">
+                        <input placeholder='Enter your Status' type='text' className='form-control' value={status} onChange={(e => setStatus(e.target.value))} ></input>
+                    </Col>
+                </Row>
                 <Row className="justify-content-center">
                     <Col md={8} className="text-center text-md-right">
                         <button className='btn btn-success btn-lg' onClick={createpost}>Submit</button>
@@ -52,28 +80,6 @@ function CreatePost() {
                     </Col>
                 </Row>
             </Container>
-            <table className="table table-hover mt-4">
-                <thead>
-                    <tr>
-                        <th>Post Id</th>
-                        <th>Author Name</th>
-                        <th>Email</th>
-                    </tr>
-                </thead>
-
-                {postvalue.map(post => {
-                    return (
-                        <tbody>
-                            <tr>
-                                <td className='bg-info'>{post.id}</td>
-                                <td className='bg-info'>{post.name}</td>
-                                <td className='bg-info'>{post.email}</td>
-                            </tr>
-                        </tbody>
-
-                    )
-                })}
-            </table>
         </>
     )
 }

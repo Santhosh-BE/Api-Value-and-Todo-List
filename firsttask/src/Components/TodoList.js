@@ -1,14 +1,30 @@
-import React from 'react'
-import { useState } from 'react'
+import React, { useEffect } from 'react'
+import { useState} from 'react'
+import { BsFillTrashFill} from 'react-icons/bs'
+
+const getlocalstorage =()=>{
+let userdata =localStorage.getItem("userdata");
+if(userdata){
+  return(userdata=JSON.parse(localStorage.getItem("userdata")));
+}
+else{
+  return[];
+}
+}
 
 function TodoList() {
   const [value, setValue] = useState("");
-  const [userdata, setUserData] = useState([]);
+  const [userdata, setUserData] = useState(getlocalstorage());
+
+  useEffect(()=>{
+    localStorage.setItem("userdata",JSON.stringify(userdata))
+  },[userdata])
+
   const AddData = () => {
-    console.log(value)
+    console.log(userdata)
     if (value.trim().length !== 0) {
       setUserData([...userdata, { value: value }])
-      setValue("");
+      setValue(""); 
     }
     else {
       alert("Please enter a value")
@@ -36,9 +52,8 @@ function TodoList() {
           return (
             <div className='d-flex m-2 '>
               {e.value}
-              <button variant="outline-danger"
-                onClick={() => { Deleteindi(e.value) }}>X
-              </button>
+              <BsFillTrashFill className='d-flex m-2 align-items-' onClick={() => { Deleteindi(e.value) }}/>
+              
             </div>
           )
         })

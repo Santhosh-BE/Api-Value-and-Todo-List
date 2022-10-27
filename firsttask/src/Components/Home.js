@@ -9,10 +9,11 @@ function Home() {
     const [user, setUser] = useState([]);
     const navigate = useNavigate();
     useEffect(() => {
-        axios.get('https://gorest.co.in/public/v2/comments')
+        axios.get('https://gorest.co.in/public/v2/users')
             .then(res => setUser(res.data))
 
-    })
+    }, [])
+    
     const Createpost = () => {
         navigate('/CreatePost')
     }
@@ -32,7 +33,7 @@ function Home() {
                             </td>
                         </tr>
                     ))}
-                   
+
                 </tbody>
             </table>
         </>)
