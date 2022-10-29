@@ -9,7 +9,7 @@ function Header() {
                     <Link to="/" className='link'>Home Page</Link>
                 </li>
                 <li className="link list-group-item ">
-                    <Link to="Todo List" className='link'>Todo List</Link>
+                    <Link to="/Todo List" className='link'>Todo List</Link>
                 </li>
             </ul>
         </div>

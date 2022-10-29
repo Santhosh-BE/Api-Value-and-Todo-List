@@ -10,23 +10,33 @@ function CreatePost() {
     const [email, setEmail] = useState("");
     const [gender, setGender] = useState("");
     const [status, setStatus] = useState("");
-    const [postvalue, setPostValue] = useState([{
-        id:id,
-        name:name,
-        email:email,
-        gender:gender,
-        status:status,
-    }]);
+    const [postvalue, setPostValue] = useState([]);
+
+    const Data ={
+            id:id,
+            name:name,
+            email:email,
+            gender:gender,
+            status:status,
+        };
+        console.log(Data);
+    
 
     const navigate = useNavigate();
     const api =`https://gorest.co.in/public/v2/users`
 
 
 
-    const createpost = () => {
-        // console.log(id, name, email);
-        console.log(postvalue);
-        axios.post(api, { id, name, email,gender,status },{ headers: {"Authorization" : `Bearer ${'65a780d930e9d44a1d0607f12b2b90b368fcf094b9a8457ded8fbe1515d94cb8'}`} }).then(navigate("/"));
+    function createpost()  {
+        console.log(Data);
+       
+        axios.post(api, Data,{ headers:
+             {"Authorization" : `Bearer ${'65a780d930e9d44a1d0607f12b2b90b368fcf094b9a8457ded8fbe1515d94cb8'}`,
+             'Content-Type': 'application/json'
+            } }).then(function(res){
+                console.log(res.data[0]);
+                return res.data[0];
+            });
         if (id.trim().length !== 0 && name.trim().length !== 0 && email.trim().length !== 0 && gender.trim().length !== 0 && status.trim().length !== 0) {
             setPostValue([...postvalue, { id: id, name: name, email: email ,gender:gender,status:status}])
             setId("");
@@ -34,6 +44,7 @@ function CreatePost() {
             setName("");
             setGender("");
             setStatus("");
+            navigate("/")
         }
         
         else {
@@ -76,7 +87,7 @@ function CreatePost() {
                 <Row className="justify-content-center">
                     <Col md={8} className="text-center text-md-right">
                         <button className='btn btn-success btn-lg' onClick={createpost}>Submit</button>
-                        <button class="btn btn-danger btn-lg m-2" type="button" onClick={Deletepost}>Delete</button>
+                        <button className="btn btn-danger btn-lg m-2" type="button" onClick={Deletepost}>Delete</button>
                     </Col>
                 </Row>
             </Container>

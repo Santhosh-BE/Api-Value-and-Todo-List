@@ -14,7 +14,7 @@ function App() {
         <Header />
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path='Todo List' element={<TodoList />} />
+          <Route path='/Todo List' element={<TodoList />} />
           <Route path='/About/:id' element={<About/>} />
           <Route path='Createpost' element={<CreatePost/>} />
         </Routes>
