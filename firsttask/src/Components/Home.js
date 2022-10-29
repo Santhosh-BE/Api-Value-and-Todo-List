@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import  ReactPaginate from 'react-paginate'
 import { Link, useNavigate } from "react-router-dom"
+import './Home.css'
 
 
 function Home() {
