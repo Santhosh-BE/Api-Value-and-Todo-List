@@ -42,9 +42,9 @@ function TodoList() {
     <>
       <div className='d-flex'>
         <input type='text' className='form-control w-25 m-2' placeholder='Enter a value' required value={value} onChange={e => setValue(e.target.value)}></input>
-        <div class="d-grid gap-2 d-md-block">
-          <button class="btn btn-success m-2" type="button" onClick={AddData}>Add</button>&nbsp;
-          <button class="btn btn-danger m-2" type="button" onClick={DeleteData}>Delete</button>
+        <div className="d-grid gap-2 d-md-block">
+          <button className="btn btn-success m-2" type="button" onClick={AddData}>Add</button>&nbsp;
+          <button className="btn btn-danger m-2" type="button" onClick={DeleteData}>Delete</button>
         </div>
       </div>
       {
