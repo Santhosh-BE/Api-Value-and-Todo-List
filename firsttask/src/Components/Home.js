@@ -1,10 +1,9 @@
-import React from 'react'
-import { useEffect, useState } from 'react';
+import React,{ useEffect, useState } from 'react';
 import axios from 'axios';
 import  ReactPaginate from 'react-paginate'
 import { Link, useNavigate } from "react-router-dom"
 import './Home.css'
-import { Row, Col, Container } from 'react-bootstrap'
+import { Row, Col } from 'react-bootstrap'
 
 
 function Home() {
@@ -35,12 +34,12 @@ function Home() {
     }
     const handlePageClick =(e)=>{
         const selectedPage = e.selected;
-        console.log(selectedPage, "output")
+        // console.log(selectedPage, "output")
         setOffset(selectedPage * perpage)
     };
     useEffect(() => {
         getData()
-    }, [offset])
+    })
     const Createpost = () => {
         navigate('/CreatePost')
     }
