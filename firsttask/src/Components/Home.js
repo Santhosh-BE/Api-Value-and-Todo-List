@@ -4,6 +4,7 @@ import axios from 'axios';
 import  ReactPaginate from 'react-paginate'
 import { Link, useNavigate } from "react-router-dom"
 import './Home.css'
+import { Row, Col, Container } from 'react-bootstrap'
 
 
 function Home() {
@@ -12,24 +13,30 @@ function Home() {
     const [perpage] =useState(5);
     const [pageCount , setPageCount]= useState(0)
     const navigate = useNavigate();
-    console.log(user);
+    // console.log(user);
     const getData = async()=>{
-        const res = await axios.get('https://gorest.co.in/public/v2/users')
+        const res = await axios.get('https://gorest.co.in/public/v2/users',
+        { headers:
+            {"Authorization" : `Bearer ${'65a780d930e9d44a1d0607f12b2b90b368fcf094b9a8457ded8fbe1515d94cb8'}`,
+            'Content-Type': 'application/json'
+           } })
         const user = res.data;
+        console.log("response 1" , offset, offset+perpage, user);
         const slice = user.slice(offset, offset+perpage)
-        const postData = slice.map(pd=> 
-            <div key={pd.id}>
-            <Link to={`/About/${pd.id}`} className='link'>{pd.name}</Link>
-            {/* <p>{pd.email}</p>
-            <p>{pd.gender}</p>
-            <p>{pd.status}</p> */}
-        </div>)
-        setUser(postData)
+        // const postData = slice.map(pd=> 
+        //     <div key={pd.id}>
+        //     <Link to={`/About/${pd.id}`} className='link'>{pd.name}</Link>
+        //     {/* <p>{pd.email}</p>
+        //     <p>{pd.gender}</p>
+        //     <p>{pd.status}</p> */}
+        // </div>)
+        setUser(slice)
         setPageCount(Math.ceil(user.length / perpage))
     }
     const handlePageClick =(e)=>{
         const selectedPage = e.selected;
-        setOffset(selectedPage + 1)
+        console.log(selectedPage, "output")
+        setOffset(selectedPage * perpage)
     };
     useEffect(() => {
         getData()
@@ -40,7 +47,27 @@ function Home() {
     return (
         <>
             <button className='btn btn-success' onClick={Createpost}>Create Post</button>
-           {user}
+           {user.map(pd=> 
+            <div key={pd.id}>
+                 <Row className="justify-content-center mb-4">
+                    <Col md={2} className="text-center text-md-right">
+                        <Link to={`/About/${pd.id}`} className='link'>{pd.name}</Link>
+                    </Col>
+                    <Col md={1} className="text-center text-md-right">
+                        <p>{pd.id}</p>
+                    </Col>
+                    <Col md={1} className="text-center text-md-right">
+                        <p>{pd.gender}</p>
+                    </Col>
+                    <Col md={1} className="text-center text-md-right">
+                        <p>{pd.status}</p> 
+                    </Col>
+                    
+           
+                </Row>
+           
+
+        </div>)}
            <ReactPaginate 
            previousLabel = {"prev"}
            nextLabel = {"next"}

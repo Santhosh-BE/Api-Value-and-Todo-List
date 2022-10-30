@@ -21,9 +21,9 @@ function TodoList() {
   },[userdata])
 
   const AddData = () => {
-    console.log(userdata)
+    // console.log(userdata)
     if (value.trim().length !== 0) {
-      setUserData([...userdata, { value: value }])
+      setUserData([...userdata, { value: value, id: userdata.length + 1 }])
       setValue(""); 
     }
     else {
@@ -50,7 +50,7 @@ function TodoList() {
       {
         userdata.map(e => {
           return (
-            <div className='d-flex m-2 '>
+            <div key={e.id} className='d-flex m-2 '>
               {e.value}
               <BsFillTrashFill className='d-flex m-2 align-items-' onClick={() => { Deleteindi(e.value) }}/>
               

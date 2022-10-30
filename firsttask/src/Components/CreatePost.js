@@ -19,7 +19,6 @@ function CreatePost() {
             gender:gender,
             status:status,
         };
-        console.log(Data);
     
 
     const navigate = useNavigate();
@@ -28,7 +27,7 @@ function CreatePost() {
 
 
     function createpost()  {
-        console.log(Data);
+        // console.log(Data);
        
         axios.post(api, Data,{ headers:
              {"Authorization" : `Bearer ${'65a780d930e9d44a1d0607f12b2b90b368fcf094b9a8457ded8fbe1515d94cb8'}`,
