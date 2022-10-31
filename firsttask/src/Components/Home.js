@@ -3,12 +3,14 @@ import axios from 'axios';
 import ReactPaginate from 'react-paginate'
 import { Link, useNavigate } from "react-router-dom"
 import './Home.css'
+import { BsFillTrashFill} from 'react-icons/bs'
+
 
 
 function Home() {
     const [user, setUser] = useState([]);
     const [offset, setOffset] = useState(0);
-    const [perpage] = useState(3);
+    const [perpage] = useState(5);
     const [pageCount, setPageCount] = useState(0)
     const navigate = useNavigate();
     // console.log(user);
@@ -41,11 +43,11 @@ function Home() {
     };
     useEffect(() => {
         getData()
-    },[])
+    })
     const Createpost = () => {
         navigate('/CreatePost')
     }
-    function deletePost(id){
+    const deletePost=(id)=>{
         axios.delete(`https://gorest.co.in/public/v2/users/${id}`,
         {
             headers:
@@ -67,8 +69,8 @@ function Home() {
             {user.map(pd => <div key={pd.id}>
                 <tbody>
                     <td><Link to={`/About/${pd.id}`} className='link'>{pd.name}</Link></td>
-                    <td><button onClick={() => deletePost(pd.id)}>Delete</button></td>
-                    {/* <BsFillTrashFill className='d-flex m-2 align-items-'  onClick={() => deletePost(pd.id)}/> */}
+                    {/* <td><button onClick={() => deletePost(pd.id)}>Delete</button></td> */}
+                    <BsFillTrashFill className='d-flex m-2 align-items-'  onClick={() => deletePost(pd.id)}/>
                 </tbody>
 
 
