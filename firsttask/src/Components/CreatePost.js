@@ -19,6 +19,8 @@ function CreatePost() {
             gender:gender,
             status:status,
         };
+
+        
     
 
     const navigate = useNavigate();
