@@ -24,7 +24,7 @@ function Home() {
                 }
             })
         const user = res.data;
-        console.log("response 1", offset, offset + perpage, user);
+        // console.log("response 1", offset, offset + perpage, user);
         const slice = user.slice(offset, offset + perpage)
         // const postData = slice.map(pd=> 
         //     <div key={pd.id}>
@@ -62,7 +62,7 @@ function Home() {
     return (
         <><>
             <button className='btn btn-success' onClick={Createpost}>Create Post</button>
-            <table className="table-primary">
+            <table className="table-primary ">
                 <thead>
                     <th>Author Name</th>
                 </thead>
