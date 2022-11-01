@@ -3,7 +3,8 @@ import axios from 'axios';
 import ReactPaginate from 'react-paginate'
 import { Link, useNavigate } from "react-router-dom"
 import './Home.css'
-import { BsFillTrashFill} from 'react-icons/bs'
+import { BsFillTrashFill } from 'react-icons/bs'
+import { Col, Row } from 'react-bootstrap';
 
 
 
@@ -47,45 +48,50 @@ function Home() {
     const Createpost = () => {
         navigate('/CreatePost')
     }
-    const deletePost=(id)=>{
+    const deletePost = (id) => {
         axios.delete(`https://gorest.co.in/public/v2/users/${id}`,
-        {
-            headers:
             {
-                "Authorization": `Bearer ${'65a780d930e9d44a1d0607f12b2b90b368fcf094b9a8457ded8fbe1515d94cb8'}`,
-                'Content-Type': 'application/json'
-            }
-        })
+                headers:
+                {
+                    "Authorization": `Bearer ${'65a780d930e9d44a1d0607f12b2b90b368fcf094b9a8457ded8fbe1515d94cb8'}`,
+                    'Content-Type': 'application/json'
+                }
+            })
         getData();
     }
-  
+
     return (
         <><>
-            <button className='btn btn-success' onClick={Createpost}>Create Post</button>
-            <table className="table-primary ">
-                <thead>
-                    <th>Author Name</th>
-                </thead>
-            {user.map(pd => <div key={pd.id}>
-                <tbody>
-                    <td><Link to={`/About/${pd.id}`} className='link'>{pd.name}</Link></td>
-                    {/* <td><button onClick={() => deletePost(pd.id)}>Delete</button></td> */}
-                    <BsFillTrashFill className='d-flex m-2 align-items-'  onClick={() => deletePost(pd.id)}/>
-                </tbody>
-
-
-                {/* <Col md={1} className="text-center text-md-right">
-            <p>{pd.id}</p>
-        </Col>
-        <Col md={1} className="text-center text-md-right">
-            <p>{pd.gender}</p>
-        </Col>
-        <Col md={1} className="text-center text-md-right">
-            <p>{pd.status}</p>
-        </Col> */}
-            </div>)}
-            </table>
-        <ReactPaginate
+            <button className='btn btn-success m-2' onClick={Createpost}>Create Post</button>
+            <Row>
+                <Col></Col>
+                <Col>
+                    <table className="table table-bordered " >
+                        <thead>
+                            <tr>
+                                <th>
+                                    Author Name
+                                </th>
+                                <th>
+                                    Operations
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {user.map(pd =>
+                                <tr>
+                                    <td key={pd.id} style={{ textAlign: "start" }}><Link to={`/About/${pd.id}`} className='link'>{pd.name}</Link>
+                                    </td>
+                                    <td style={{ textAlign: "center", color: "red" }}>
+                                        <BsFillTrashFill className=' m-2' onClick={() => deletePost(pd.id)} />
+                                    </td>
+                                </tr>)}
+                        </tbody>
+                    </table>
+                </Col>                
+            <Col></Col>
+            </Row>
+            <ReactPaginate
                 previousLabel={"prev"}
                 nextLabel={"next"}
                 breakLabel={"..."}

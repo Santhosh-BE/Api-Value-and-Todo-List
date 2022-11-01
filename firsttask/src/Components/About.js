@@ -2,6 +2,7 @@ import React from 'react'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
+import { Row,Col} from 'react-bootstrap'
 
 
 
@@ -21,16 +22,23 @@ function About() {
       <Link to={'/'}>Back To Home</Link>
       {user && (
         <>
-          <div className="card m-5" style={{ width: "28rem" }}>
+        <Row>
+
+          <Col></Col>
+          <Col>
+          <div className="card m-5" style={{ width: "28rem",textAlign:"start",alignSelf:"center" }}>
             <div className="card-header">
               Author Details
             </div>
             <ul className="list-group list-group-flush">
-              <li className="list-group-item">Post Id:{user.id}</li>
-              <li className="list-group-item">Author Name:{user.name}</li>
-              <li className="list-group-item">Author Email: {user.email}</li>
+              <li className="list-group-item">Post_Id:&nbsp; {user.id}</li>
+              <li className="list-group-item">Author_Name:&nbsp; {user.name}</li>
+              <li className="list-group-item">Author_Email:&nbsp; {user.email}</li>
             </ul>
           </div>
+          </Col>
+          <Col></Col>
+          </Row>
         </>
       )}
     </>)

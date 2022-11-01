@@ -1,65 +1,125 @@
-import React, { useState,useEffect } from 'react'
-import { BsFillTrashFill} from 'react-icons/bs'
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Col, Row } from 'react-bootstrap';
+import ReactPaginate from 'react-paginate'
+import moment from 'moment'
 
-const getlocalstorage =()=>{
-let userdata =localStorage.getItem("userdata");
-if(userdata){
-  return(userdata=JSON.parse(localStorage.getItem("userdata")));
-}
-else{
-  return[];
-}
-}
 
 function TodoList() {
-  const [value, setValue] = useState("");
-  const [userdata, setUserData] = useState(getlocalstorage());
+  const [data, setData] = useState([]);
+  const [offset, setOffset] = useState(0);
+  const [perpage] = useState(5);
+  const [pageCount, setPageCount] = useState(0)
 
-  useEffect(()=>{
-    localStorage.setItem("userdata",JSON.stringify(userdata))
-  },[userdata])
+  useEffect(() => {
+    loadUserData();
+  });
 
-  const AddData = () => {
-    // console.log(userdata)
-    if (value.trim().length !== 0) {
-      setUserData([...userdata, { value: value, id: userdata.length + 1 }])
-      setValue(""); 
-    }
-    else {
-      alert("Please enter a value")
-    }
+  const loadUserData = async () => {
+    const res = await axios
+      .get("https://gorest.co.in/public/v2/todos",
+        {
+          headers:
+          {
+            "Authorization": `Bearer ${'65a780d930e9d44a1d0607f12b2b90b368fcf094b9a8457ded8fbe1515d94cb8'}`,
+            'Content-Type': 'application/json'
+          }
+        })
+    const user = res.data;
+    const slice = user.slice(offset, offset + perpage)
+    setData(slice)
+    setPageCount(Math.ceil(user.length / perpage))
+  };
+  const handlePageClick = (e) => {
+    const selectedPage = e.selected;
+    // console.log(selectedPage, "output")
+    setOffset(selectedPage * perpage)
+  };
+  const handleFilter = async (value) => {
+    return await axios
+      .get(`https://gorest.co.in/public/v2/todos?status=${value}`,
+        {
+          headers:
+          {
+            "Authorization": `Bearer ${'65a780d930e9d44a1d0607f12b2b90b368fcf094b9a8457ded8fbe1515d94cb8'}`,
+            'Content-Type': 'application/json'
+          }
+        })
+      .then((response) => setData(response.data))
+      .catch((err) => console.log(err));
   }
-  const Deleteindi = (value) => {
+  const handleData = async () => {
+    return await axios
+      .get(`https://gorest.co.in/public/v2/todos`,
+        {
+          headers:
+          {
+            "Authorization": `Bearer ${'65a780d930e9d44a1d0607f12b2b90b368fcf094b9a8457ded8fbe1515d94cb8'}`,
+            'Content-Type': 'application/json'
+          }
+        })
+      .then((response) => setData(response.data))
+      .catch((err) => console.log(err));
+  }
 
-    setUserData(userdata.filter(e => e.value !== value))
-  }
-  const DeleteData = () => {
-    setUserData([]);
-  }
 
   return (
-    <>
-      <div className='d-flex'>
-        <input type='text' className='form-control w-25 m-2' placeholder='Enter a value' required value={value} onChange={e => setValue(e.target.value)}></input>
-        <div className="d-grid gap-2 d-md-block">
-          <button className="btn btn-success m-2" type="button" onClick={AddData}>Add</button>&nbsp;
-          <button className="btn btn-danger m-2" type="button" onClick={DeleteData}>Delete</button>
-        </div>
-      </div>
-      {
-        userdata.map(e => {
-          return (
-            <div key={e.id} className='d-flex m-2 '>
-              {e.value}
-              <BsFillTrashFill className='d-flex m-2 align-items-' onClick={() => { Deleteindi(e.value) }}/>
-              
-            </div>
-          )
-        })
 
-      }
-    </>
+    <div style={{ marginTop: "20px" }}>
+      <h2>Status Filter</h2>
+      <button className='btn btn-info m-2' onClick={() => handleData()}>All</button>
+      <button className='btn btn-success m-2' onClick={() => handleFilter("completed")}>Completed</button>
+      <button className='btn btn-danger m-2' onClick={() => handleFilter("pending")}>Pending</button>
+
+      <Row>
+        <Col>
+          <table className="table table-bordered ">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Date</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            {data.length === 0 ? (
+              <tbody>
+                <tr>
+                  <td>No Data Found</td>
+                </tr>
+              </tbody>
+            ) : (
+              data.map((item, index) => (
+                <tbody key={index}>
+                  <tr>
+                    <td>{item.id}</td>
+                    <td>{item.title}</td>
+                    <td>{moment(item.due_on).format('DD/MM/YYYY')}</td>
+                    <td>{item.status}</td>
+                  </tr>
+                </tbody>
+              ))
+            )}
+          </table>
+        </Col>
+      </Row>
+      <ReactPaginate
+        previousLabel={"prev"}
+        nextLabel={"next"}
+        breakLabel={"..."}
+        breakClassName={"break-me"}
+        pageCount={pageCount}
+        marginPagesDisplayed={2}
+        pageRangeDisplayed={5}
+        onPageChange={handlePageClick}
+        containerClassName={"pagination justify-content-center"}
+        subContainerClassName={"page-item"}
+        activeClassName={"active"} />
+
+    </div>
+
   )
 }
 
-export default TodoList
+
+export default TodoList;
