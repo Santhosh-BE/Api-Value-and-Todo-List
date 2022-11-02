@@ -65,7 +65,7 @@ function TodoList() {
 
   return (
 
-    <div style={{ marginTop: "20px" }}>
+    <div>
       <h2>Status Filter</h2>
       <button className='btn btn-info m-2' onClick={() => handleData()}>All</button>
       <button className='btn btn-success m-2' onClick={() => handleFilter("completed")}>Completed</button>
