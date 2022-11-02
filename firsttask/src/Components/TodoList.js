@@ -13,7 +13,7 @@ function TodoList() {
 
   useEffect(() => {
     loadUserData();
-  });
+  },[]);
 
   const loadUserData = async () => {
     const res = await axios
