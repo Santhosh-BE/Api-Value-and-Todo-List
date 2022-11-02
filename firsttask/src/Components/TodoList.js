@@ -13,7 +13,7 @@ function TodoList() {
 
   useEffect(() => {
     loadUserData();
-  },[]);
+  },[offset]);
 
   const loadUserData = async () => {
     const res = await axios
@@ -36,7 +36,7 @@ function TodoList() {
     setOffset(selectedPage * perpage)
   };
   const handleFilter = async (value) => {
-    return await axios
+    const resp= await axios
       .get(`https://gorest.co.in/public/v2/todos?status=${value}`,
         {
           headers:
@@ -45,11 +45,12 @@ function TodoList() {
             'Content-Type': 'application/json'
           }
         })
-      .then((response) => setData(response.data))
-      .catch((err) => console.log(err));
+        const user = resp.data;
+        const slice = user.slice(offset, offset + perpage)
+        setData(slice)
   }
   const handleData = async () => {
-    return await axios
+    const respo= await axios
       .get(`https://gorest.co.in/public/v2/todos`,
         {
           headers:
@@ -58,8 +59,9 @@ function TodoList() {
             'Content-Type': 'application/json'
           }
         })
-      .then((response) => setData(response.data))
-      .catch((err) => console.log(err));
+        const user = respo.data;
+        const slice = user.slice(offset, offset + perpage)
+        setData(slice)
   }
 
 
